@@ -1,0 +1,16 @@
+@host = http://localhost:3000
+# request for the home route
+get {{host}}
+
+###
+get {{host}}/admin/add-product
+
+
+###
+post {{host}}/admin/product 
+Content-Type: application/json
+
+{
+    "name": "rejan",
+    "age": 22
+}
