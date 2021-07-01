@@ -22,13 +22,15 @@ class Product {
         });
     }
 
-   static fetchAll = async () => {
-       const products = await promisify(fs.readFile)(p, (err, data) => {
-           let products = []; 
-           products = !err ? JSON.parse(data) : []; 
-           return products;
-       });
-       return products;
+   static fetchAll() {
+       return new Promise((resolve, reject) => {
+           fs.readFile(p, (err, data) => {
+               if(!err) {
+                   resolve(JSON.parse(data))
+               }
+               reject(err);
+           });
+       }); 
    }
 }
 
