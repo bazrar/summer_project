@@ -1,15 +1,18 @@
-const products = [];
+const Product = require('../models/product');
+
 exports.getAddProduct = (req,res,next) => {
     res.render('add-product', {docTitle: 'add-product', path: '/admin/add-product'});
 }
 
 exports.postAddProduct = (req,res,next) => {
-    // console.log(req.body);
-    products.push({title: req.body.title})
+    const prod = new Product(req.body.title);
+    prod.save();
     res.redirect('/');
 }
 
 
-exports.getProducts = (req,res,next) => {
-    res.render('shop', {docTitle: 'Shop', prods: products, path: '/'});
+exports.getProducts = async (req,res,next) => {
+   const products = await Product.fetchAll(); 
+   console.log(JSON.parse(products));
+   res.render('shop', {docTitle: 'Shop', prods:products, path: '/'});
 }
