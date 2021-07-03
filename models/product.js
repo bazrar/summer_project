@@ -15,14 +15,23 @@ const getProductsFromFile = () => {
 }
 
 class Product { 
-    constructor(title) {
+    constructor(title, imageUrl, description, price) {
         this.title = title; 
+        this.imageUrl= imageUrl;
+        this.description = description; 
+        this.price = price;
     }
 
     save = async () => {
-        let products = await getProductsFromFile(); 
-        products.push(this);
-        fs.writeFile(p, JSON.stringify(products), err => console.log(err));
+        try {
+            let products = await getProductsFromFile(); 
+            products.push(this);
+            fs.writeFile(p, JSON.stringify(products), err => console.log(err)); 
+        }catch(err) {
+            let prods = []; 
+            prods.push(this); 
+          fs.writeFile(p, JSON.stringify(prods), err => console.log(err)); 
+        }
     }
    static fetchAll() {
        return getProductsFromFile();
